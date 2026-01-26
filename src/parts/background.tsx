@@ -17,7 +17,7 @@ const COLORS = [
 const TileBackground = ({ children }: TileBackgroundProps) => {
 
     const PAD_WIDTH = 100;
-    const PAD_HEIGHT = 200;
+    const PAD_HEIGHT = 100;
     const [pads, setPads] = React.useState<number[]>([]);
 
     React.useEffect(() => {
@@ -26,6 +26,7 @@ const TileBackground = ({ children }: TileBackgroundProps) => {
             const rows = Math.floor(window.innerHeight / PAD_HEIGHT);
             const total = rows * cols;
 
+            console.log(rows, cols, total);
             setPads(new Array(total).fill(0));
         }
 
@@ -87,7 +88,13 @@ const TileBackground = ({ children }: TileBackgroundProps) => {
 
     return (
         <>
-            <div className={`fixed inset-0 -z-10 grid [grid-template-columns:repeat(auto-fill,minmax(${PAD_HEIGHT}px,1fr))] auto-rows-[${PAD_WIDTH}px]`}>
+            <div 
+                className="fixed inset-0 -z-10 grid" 
+                style={{
+                    gridTemplateColumns: `repeat(${Math.floor(window.innerWidth / PAD_WIDTH)}, ${PAD_WIDTH}px)`,
+                    gridAutoRows: `${PAD_HEIGHT}px`,
+                }}
+            >
             {pads.map((_, i) => (
                 <div
                 key={i}

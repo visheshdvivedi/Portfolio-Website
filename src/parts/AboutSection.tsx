@@ -30,8 +30,23 @@ const AboutSection = () => {
         }
     ]
 
+    const stats = [
+        {
+            "title": `${getExperienceYears()}+`,
+            "content": "Years Of Experience"
+        },
+        {
+            "title": "20+",
+            "content": "Projects Worked On"
+        },
+        {
+            "title": "200+",
+            "content": "Leetcode Problems Solved"
+        }
+    ]
+
     return (
-        <div className="flex flex-col justify-center items-center w-[80%] h-[80%] font-mono gap-5">
+        <div className="flex flex-col justify-center items-center w-[80%] h-[80%] font-mono gap-5 mt-10">
             <span className="text-primary text-sm">// About Me</span>
             <h2 className="text-3xl font-semibold text-white text-center">
                 Passionate Developer with a{" "}
@@ -50,6 +65,14 @@ const AboutSection = () => {
                             <span className="text-xs text-white">{hobby.name}</span>
                             <span className="text-[10px] text-muted-foreground">{hobby.content}</span>
                         </div>
+                    </div>
+                ))}
+            </div>
+            <div className="flex flex-row justify-between items-end gap-10 mt-5">
+                {stats.map(stat => (
+                    <div key={stat.title} className="flex flex-col justify-center items-center gap-3">
+                        <span className="text-primary text-2xl font-semibold">{stat.title}</span>
+                        <span className="text-muted-foreground text-sm">{stat.content}</span>
                     </div>
                 ))}
             </div>

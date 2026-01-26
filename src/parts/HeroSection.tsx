@@ -46,9 +46,6 @@ const HeroSection = () => {
                     </a>
                 </div>
             </div>
-            <div className="absolute bottom-12 size-6 animate-bounce text-muted-foreground mt-60">
-                <ArrowDown />
-            </div>
         </>
     )
 };
