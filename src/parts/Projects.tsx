@@ -1,5 +1,5 @@
 import React from 'react'
-import LeetcloneImage from "../assets/projects/Leetclone.png";
+import LeetcloneImage from "../assets/projects/Leetclone-image.png";
 import { CiGlobe } from "react-icons/ci";
 import { SiGithub } from 'react-icons/si';
 import { IoIosArrowUp, IoIosArrowForward } from 'react-icons/io';
@@ -50,8 +50,12 @@ const ProjectCard = ({ project }: { project: Project }) => {
     return (
         <div className='p-6 bg-secondary rounded-lg max-w-2xl h-full mt-6 hover:outline-1 hover:outline-primary transition-all hover:-translate-y-1'>
             {/* image comes here */}
-            <div className='rounded-lg bg-linear-to-r from-green-300 to-green-800 w-full h-48 relative'>
-                <span className='absolute bottom-3 left-3 bg-secondary px-2 py-1 rounded-lg text-primary text-xs'>Featured</span>
+            <div className="h-64 rounded-lg">
+                <img
+                    src={project.image}
+                    alt="image"
+                    className="w-full h-full object-cover object-top border border-gray-500 rounded-lg"
+                />
             </div>
             <h2 className='text-start py-5 text-xl text-white font-semibold'>{project.name}</h2>
             <p className="w-full text-start">{opened ? project.longDescription : project.shortDescription}</p>
