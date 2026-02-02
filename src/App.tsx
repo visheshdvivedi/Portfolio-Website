@@ -3,6 +3,7 @@ import HeroSection from "./parts/HeroSection";
 import TileBackground from "./parts/background";
 import AboutSection from "./parts/AboutSection";
 import SkillsAndTools from "./parts/Skills";
+import FeaturedProjects from "./parts/Projects";
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
                 <HeroSection />
                 <AboutSection />
                 <SkillsAndTools />
+                <FeaturedProjects />
             </div>
         </TileBackground>
     )

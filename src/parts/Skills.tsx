@@ -55,14 +55,14 @@ const SkillsAndTools = () => {
             <p className="text-muted-foreground text-center">
                 A comprehensive toolkit built over years of solving real-world problems
             </p>
-            <div>
+            <div className="">
                 {data.map(entry => (
                     <div className="flex flex-col gap-5">
                         <h2 className="text-primary">{entry.title}</h2>
                         <div className="flex flex-row justify-start items-center gap-5">
                             {entry.content.map(card => (
                                 <>
-                                    <div title={card.description} className="flex flex-col bg-secondary justify-center items-center gap-3 p-2 size-36 rounded-lg hover:outline hover:outline-primary hover:-translate-y-3 transition-all" data-tooltip-id={card.name} data-tooltip-content={card.description} >
+                                    <div title={card.name} className="flex flex-col bg-secondary justify-center items-center gap-3 p-2 size-36 rounded-lg hover:outline hover:outline-primary hover:-translate-y-3 transition-all" data-tooltip-id={card.name} data-tooltip-content={card.description} >
                                         <div className="text-primary">
                                             {card.icon}
                                         </div>
