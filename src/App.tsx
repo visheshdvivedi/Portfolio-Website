@@ -4,6 +4,7 @@ import TileBackground from "./parts/background";
 import AboutSection from "./parts/AboutSection";
 import SkillsAndTools from "./parts/Skills";
 import FeaturedProjects from "./parts/Projects";
+import Activity from "./parts/Activity";
 
 function App() {
     return (
@@ -14,6 +15,7 @@ function App() {
                 <AboutSection />
                 <SkillsAndTools />
                 <FeaturedProjects />
+                <Activity />
             </div>
         </TileBackground>
     )
