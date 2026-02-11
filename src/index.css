@@ -92,6 +92,19 @@
   --gradient-hero: linear-gradient(180deg, hsl(222 47% 8%) 0%, hsl(222 47% 5%) 100%);
   --gradient-card: linear-gradient(145deg, hsl(222 47% 10%) 0%, hsl(222 47% 6%) 100%);
   --gradient-glow: radial-gradient(ellipse at center, hsl(173 80% 40% / 0.15) 0%, transparent 70%);
+
+  /* Heatmap colors derived from the primary color dynamically */
+  --heatmap-0: hsl(222, 30%, 10%);
+  --heatmap-1: color-mix(in hsl, var(--primary) 10%, transparent);
+  --heatmap-2: color-mix(in hsl, var(--primary) 20%, transparent);
+  --heatmap-3: color-mix(in hsl, var(--primary) 30%, transparent);
+  --heatmap-4: color-mix(in hsl, var(--primary) 40%, transparent);
+  --heatmap-5: color-mix(in hsl, var(--primary) 50%, transparent);
+  --heatmap-6: color-mix(in hsl, var(--primary) 60%, transparent);
+  --heatmap-7: color-mix(in hsl, var(--primary) 70%, transparent);
+  --heatmap-8: color-mix(in hsl, var(--primary) 80%, transparent);
+  --heatmap-9: color-mix(in hsl, var(--primary) 90%, transparent);
+  --heatmap-10: var(--primary);
 }
 
 .dark {
@@ -147,3 +160,15 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.react-calendar-heatmap .heatmap-0 { fill: var(--heatmap-0) }
+.react-calendar-heatmap .heatmap-1 { fill: var(--heatmap-1) }
+.react-calendar-heatmap .heatmap-2 { fill: var(--heatmap-2) }
+.react-calendar-heatmap .heatmap-3 { fill: var(--heatmap-3) }
+.react-calendar-heatmap .heatmap-4 { fill: var(--heatmap-4) }
+.react-calendar-heatmap .heatmap-5 { fill: var(--heatmap-5) }
+.react-calendar-heatmap .heatmap-6 { fill: var(--heatmap-6) }
+.react-calendar-heatmap .heatmap-7 { fill: var(--heatmap-7) }
+.react-calendar-heatmap .heatmap-8 { fill: var(--heatmap-8) }
+.react-calendar-heatmap .heatmap-9 { fill: var(--heatmap-9) }
+.react-calendar-heatmap .heatmap-10{ fill: var(--heatmap-10) }

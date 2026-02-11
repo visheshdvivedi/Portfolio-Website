@@ -5,3 +5,5 @@ export const links = {
 }
 
 export const JOB_START_DATE = new Date(2020, 5, 19);
+export const GITHUB_USERNAME = "visheshdvivedi";
+export const LEETCODE_USERNAME = "visheshdvivedi5012";
