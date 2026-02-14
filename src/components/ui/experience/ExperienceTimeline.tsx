@@ -1,8 +1,7 @@
-import React, { type ReactNode } from 'react'
-import type { IconType } from 'react-icons'
+import React from "react"
 
 type Technology = {
-    icon: IconType
+    icon: React.ReactNode
 }
 
 type Experience = {

@@ -1,4 +1,3 @@
-import React from "react";
 import { JOB_START_DATE } from "../metadata";
 import { MusicIcon, GamepadIcon } from "lucide-react";
 

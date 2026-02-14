@@ -1,7 +1,6 @@
-import React from "react";
 import {
-    SiApacheairflow,
-    SiDatabricks,
+  SiApacheairflow,
+  SiDatabricks,
   SiDjango,
   SiDocker,
   SiJavascript,
@@ -16,28 +15,30 @@ import ExperienceTimeline from "../components/ui/experience/ExperienceTimeline";
 const Experience = () => {
   const experience = [
     {
-        startDate: new Date(2025, 3, 3),
-        endDate: new Date(),
-        title: "Software Engineer | Full Stack",
-        company: "Boston Consulting Group (BCG)",
-        description: [
-            "Designed and developed an AI-powered interview platform from scratch, enabling fully automated candidate interviews and real-time interviewer assistance through intelligent question recommendations that ensure comprehensive topic coverage.",
-            "Collaborated with retail clients in Thailand and London to build and deploy a price optimization and promotion success prediction platform powered by a proprietary forecasting and optimization engine, improving data-driven pricing and promotional decision-making."
-        ],
-        technologies: [
-            { icon: <SiPython key={1} size={25} title="Python" /> },
-            { icon: <SiJavascript key={2} size={25} title="JavaScript" /> },
-            { icon: <SiReact key={3} size={25} title="React" /> },
-            { icon: <SiDjango key={4} size={25} title="Django" /> },
-            { icon: <TbBrandAzure key={5} size={25} title="Microsoft Azure" /> },
-            { icon: <SiOpenai key={6} size={25} title="OpenAI" /> },
-            { icon: <SiDocker key={7} size={25} title="Docker" /> },
-            { icon: <SiKubernetes key={8} size={25} title="Kubernetes" /> },
-            { icon: <SiDatabricks key={9}  size={25} title="Databricks" /> },
-            { icon: <SiApacheairflow key={10} size={25} title="Apache Airflow" /> }
-        ]
+      id: 1,
+      startDate: new Date(2025, 3, 3),
+      endDate: new Date(),
+      title: "Software Engineer | Full Stack",
+      company: "Boston Consulting Group (BCG)",
+      description: [
+        "Designed and developed an AI-powered interview platform from scratch, enabling fully automated candidate interviews and real-time interviewer assistance through intelligent question recommendations that ensure comprehensive topic coverage.",
+        "Collaborated with retail clients in Thailand and London to build and deploy a price optimization and promotion success prediction platform powered by a proprietary forecasting and optimization engine, improving data-driven pricing and promotional decision-making.",
+      ],
+      technologies: [
+        { icon: <SiPython key={1} size={25} title="Python" /> },
+        { icon: <SiJavascript key={2} size={25} title="JavaScript" /> },
+        { icon: <SiReact key={3} size={25} title="React" /> },
+        { icon: <SiDjango key={4} size={25} title="Django" /> },
+        { icon: <TbBrandAzure key={5} size={25} title="Microsoft Azure" /> },
+        { icon: <SiOpenai key={6} size={25} title="OpenAI" /> },
+        { icon: <SiDocker key={7} size={25} title="Docker" /> },
+        { icon: <SiKubernetes key={8} size={25} title="Kubernetes" /> },
+        { icon: <SiDatabricks key={9} size={25} title="Databricks" /> },
+        { icon: <SiApacheairflow key={10} size={25} title="Apache Airflow" /> },
+      ],
     },
     {
+      id: 2,
       startDate: new Date(2022, 10, 22),
       endDate: new Date(2025, 2, 28),
       title: "Senior Software Engineer",
@@ -58,6 +59,7 @@ const Experience = () => {
       ],
     },
     {
+      id: 3,
       startDate: new Date(2020, 5, 24),
       endDate: new Date(2022, 10, 21),
       title: "Software Engineer",
@@ -76,6 +78,7 @@ const Experience = () => {
       ],
     },
     {
+      id: 4,
       startDate: new Date(2019, 5, 24),
       endDate: new Date(2020, 5, 23),
       title: "Trainee Intern",
@@ -90,11 +93,14 @@ const Experience = () => {
         { icon: <SiReact size={25} title="React" /> },
         { icon: <SiDjango size={25} title="Django" /> },
       ],
-    }
+    },
   ];
 
   return (
-    <div id="experience" className="flex flex-col justify-center items-center w-[80%] h-[80%] font-mono gap-8 my-10">
+    <div
+      id="experience"
+      className="flex flex-col justify-center items-center w-[80%] h-[80%] font-mono gap-8 my-10"
+    >
       <span className="text-primary text-sm">// Experience</span>
       <h2 className="text-3xl font-semibold text-white text-center">
         Professional&nbsp;

@@ -1,6 +1,3 @@
-import React from "react";
-import { CircleCheckIcon, CircleHelpIcon, CircleIcon } from "lucide-react";
-
 import { useIsMobile } from "../hooks/use-mobile";
 import {
     NavigationMenu,

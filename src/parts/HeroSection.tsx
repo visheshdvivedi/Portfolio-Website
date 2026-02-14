@@ -1,6 +1,6 @@
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
-import { Github, MailIcon, LinkedinIcon, ArrowDown } from "lucide-react";
+import { Github, MailIcon, LinkedinIcon } from "lucide-react";
 import { links } from "../metadata";
 
 const HeroSection = () => {

@@ -1,13 +1,9 @@
 import React from "react";
-import { FaCode, FaFireAlt, FaGithub } from "react-icons/fa";
 import { FiGithub } from "react-icons/fi";
-import { LuTrophy } from "react-icons/lu";
-import CalendarHeatmap from 'react-calendar-heatmap';
+import CalendarHeatmap, { type TooltipDataAttrs } from 'react-calendar-heatmap';
 import { Tooltip } from "react-tooltip";
 import { GITHUB_USERNAME, LEETCODE_USERNAME } from "../metadata";
 import axios from "axios";
-import { SiLeetcode } from "react-icons/si";
-import { TbBrandLeetcode } from "react-icons/tb";
 
 type LeetcodeAPIData = {
     activeYears: number[],
@@ -18,20 +14,20 @@ type LeetcodeAPIData = {
 
 const Activity = () => {
     
-    const statCards = [
-        {
-            "content": "Leetcode Day Streak",
-            "icon": <FaFireAlt className="size-8" />
-        },
-        {
-            "content": "Problems Solved",
-            "icon": <FaCode className="size-8" />
-        },
-        {
-            "content": "LeetCode Rank",
-            "icon": <LuTrophy className="size-8" />
-        }
-    ]
+    // const statCards = [
+    //     {
+    //         "content": "Leetcode Day Streak",
+    //         "icon": <FaFireAlt className="size-8" />
+    //     },
+    //     {
+    //         "content": "Problems Solved",
+    //         "icon": <FaCode className="size-8" />
+    //     },
+    //     {
+    //         "content": "LeetCode Rank",
+    //         "icon": <LuTrophy className="size-8" />
+    //     }
+    // ]
 
     const currentDate = new Date();
     const startDate = new Date(currentDate.getFullYear() - 1, currentDate.getMonth(), currentDate.getDate(), 0, 0, 0)
@@ -54,6 +50,8 @@ const Activity = () => {
         let formattedData = [];
         for (const [unixTime, count] of Object.entries(data)) {
             let unixTimeNumber = parseInt(unixTime);
+            if (typeof count !== "number")
+                    continue;
             formattedData.push({
                 date: new Date(unixTimeNumber * 1000),
                 count: count
@@ -182,7 +180,7 @@ const Activity = () => {
                         tooltipDataAttrs={value => {
                             if (!value || !value.date) return {}
                             const dateString = new Date(value.date).toDateString();
-                            return { 'data-tooltip-id': `github-${value.date}`, 'data-tooltip-content': `${dateString} (${value.count})` }
+                            return { 'data-tooltip-id': `github-${value.date}`, 'data-tooltip-content': `${dateString} (${value.count})` } as TooltipDataAttrs
                         }}
                     />
                 </div>
@@ -208,7 +206,7 @@ const Activity = () => {
                         tooltipDataAttrs={value => {
                             if (!value || !value.date) return {}
                             const dateTimeString = value.date.toDateString();
-                            return { 'data-tooltip-id': `leetcode-${value.date}`, 'data-tooltip-content': `${dateTimeString} (${value.count})` }
+                            return { 'data-tooltip-id': `leetcode-${value.date}`, 'data-tooltip-content': `${dateTimeString} (${value.count})` } as TooltipDataAttrs
                         }}
                     />
                 </div>
