@@ -56,7 +56,7 @@ const TileBackground = ({ children }: TileBackgroundProps) => {
                 pad.style.boxShadow = "";
             }, 600);
 
-        }, 500);
+        }, 600);
         
         const secondInterval = setInterval(() => {
             const random = Math.floor(Math.random() * pads.length);
@@ -78,7 +78,7 @@ const TileBackground = ({ children }: TileBackgroundProps) => {
                 pad.style.boxShadow = "";
             }, 600);
 
-        }, 300);
+        }, 400);
 
         return () => {
             clearInterval(interval);

@@ -6,27 +6,32 @@ import CalendarHeatmap from 'react-calendar-heatmap';
 import { Tooltip } from "react-tooltip";
 import { GITHUB_USERNAME, LEETCODE_USERNAME } from "../metadata";
 import axios from "axios";
+import { SiLeetcode } from "react-icons/si";
+import { TbBrandLeetcode } from "react-icons/tb";
+
+type LeetcodeAPIData = {
+    activeYears: number[],
+    streak: number,
+    totalActiveDays: number,
+    submissionCalendar: string
+}
 
 const Activity = () => {
     
-    const stats = [
+    const statCards = [
         {
-            "title": "42",
-            "content": "Day Streak",
+            "content": "Leetcode Day Streak",
             "icon": <FaFireAlt className="size-8" />
         },
         {
-            "title": "2847",
             "content": "Total Commits",
             "icon": <FiGithub className="size-8" />
         },
         {
-            "title": "523",
             "content": "Problems Solved",
             "icon": <FaCode className="size-8" />
         },
         {
-            "title": "Top 5%",
             "content": "LeetCode Rank",
             "icon": <LuTrophy className="size-8" />
         }
@@ -38,57 +43,103 @@ const Activity = () => {
     const [githubActivity, setGithubActivity] = React.useState([{
         date: new Date(), count: 0
     }]);
+    const [leetcodeActivity, setLeetcodeActivity] = React.useState([
+        { date: new Date(), count: 0 }
+    ])
+    const [stats, setStats] = React.useState({
+        leetcodeStreak: 0,
+        totalCommits: 0,
+        problemSolved: 0,
+        leetcodeRank: 0
+    })
+
+    const formatLeetcodeCalendarData = (apiData: LeetcodeAPIData) => {
+        const data = JSON.parse(apiData.submissionCalendar);
+        let formattedData = [];
+        for (const [unixTime, count] of Object.entries(data)) {
+            let unixTimeNumber = parseInt(unixTime);
+            formattedData.push({
+                date: new Date(unixTimeNumber * 1000),
+                count: count
+            })
+        }
+        return formattedData;
+    }
 
     const retrieveGithubActivity = async () => {
         try {
             const response = await axios.get(`https://github-contributions-api.jogruber.de/v4/${GITHUB_USERNAME}`);
             if (response.status != 200) {
                 console.error(`Failed to retrieve github activity: ${response.data}`);
+                return;
             }
             const data = response.data;
+            setStats(stat => {
+                return { ...stat, totalCommits: getTotalCommits(data['contributions']) }
+            })
             setGithubActivity(data['contributions']);
         } catch (error) {
             console.error(`Failed to retrieve github activity: ${error}`);
         }
     }
 
-    const retrieveLeetcodeSubmissions = async () => {
+    const retrieveLeetcodeSubmissions = async (calendarYear: number) => {
         try {
-            const response = await axios.get("https://leetcode.com/graphql", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                data: JSON.stringify({
-                    query: `
-                        query getUserProfile($username: String!) {
-                        matchedUser(username: $username) {
-                            submitStats {
-                            acSubmissionNum {
-                                difficulty
-                                count
-                                submissions
-                            }
-                            }
-                        }
-                        }
-                    `,
-                    variables: { LEETCODE_USERNAME }
-                })
-            });
+            const response = await axios.get(`https://alfa-leetcode-api.onrender.com/${LEETCODE_USERNAME}/calendar?year=${calendarYear}`);
             if (response.status != 200) {
                 console.error(`Failed to retrieve leetcode submissions ${response.data}`);
+                return;
             }
             const data = response.data;
-            console.log(data);
+            const formattedData = formatLeetcodeCalendarData(data);
+            setStats(stat => {
+                return { ...stat, leetcodeStreak: data.streak }
+            })
+            setLeetcodeActivity(activity => [...activity, ...formattedData])
         } catch (error) {
             console.error(`Failed to retrieve leetcode submissions ${error}`);
         }
     }
 
+    const retrieveLeetcodeProfile = async () => {
+        try {
+            const response = await axios.get(`https://alfa-leetcode-api.onrender.com/${LEETCODE_USERNAME}/profile`);
+            if (response.status != 200) {
+                console.error(`Failed to retrieve leetcode profile ${response.data}`);
+                return;
+            }
+            const data = response.data;
+            console.log(data);
+            setStats(stat => {
+                return  { ...stat, leetcodeRank: data['ranking'], problemSolved: data['totalSolved'] }
+            })
+        } catch (error) {
+            console.error(`Failed to retrieve leetcode profile ${error}`);
+        }
+    }
+
+    const getTotalCommits = (data: any) => {
+        if (data.length < 5) return 0;
+        let count = 0;
+        for (let activity of data) {
+            count += activity.count;
+        }
+        return count;
+    }
+
+    const getRetrievedStatByContent = (content: string) => {
+        if (content === "Leetcode Day Streak") return stats.leetcodeStreak;
+        else if (content === "Total Commits") return stats.totalCommits;
+        else if (content === "Problems Solved") return stats.problemSolved;
+        else if (content === "Leetcode Rank") return stats.leetcodeRank;
+    }
+
     React.useEffect(() => {
         retrieveGithubActivity();
-        retrieveLeetcodeSubmissions();
+        retrieveLeetcodeProfile();
+        const currentYear = new Date().getFullYear();
+        retrieveLeetcodeSubmissions(currentYear);
+        retrieveLeetcodeSubmissions(currentYear - 1);
     }, []);
 
     return (
@@ -102,12 +153,12 @@ const Activity = () => {
                 Tracking my coding journey through commits and problem solving
             </p>
             <div className="flex flex-row justify-between items-end gap-36 mt-5">
-                {stats.map(stat => (
-                    <div key={stat.title} className="flex flex-col justify-center items-center gap-3">
+                {statCards.map(stat => (
+                    <div key={stat.content} className="flex flex-col justify-center items-center gap-3">
                         <span className="text-primary">
                             {stat.icon}
                         </span>
-                        <span className="text-white text-3xl font-semibold">{stat.title}</span>
+                        <span className="text-white text-3xl font-semibold">{getRetrievedStatByContent(stat.content)}</span>
                         <span className="text-muted-foreground">{stat.content}</span>
                     </div>
                 ))}
@@ -123,40 +174,45 @@ const Activity = () => {
                 classForValue={(value) => {
                     if (!value) return "heatmap-0";
                     const count = value.count;
-                    if (count <= 10) return `heatmap-${count}`;
-                    return 'heatmap-10';
+                    if (count <= 5) return `heatmap-${count}`;
+                    return 'heatmap-5';
                 }}
                 showMonthLabels={false}
                 tooltipDataAttrs={value => {
-                    if (!value) return {}
-                    return { 'data-tooltip-id': `github-${value.date}`, 'data-tooltip-content': `${value.date} (${value.count})` }
+                    if (!value || !value.date) return {}
+                    const dateString = new Date(value.date).toDateString();
+                    return { 'data-tooltip-id': `github-${value.date}`, 'data-tooltip-content': `${dateString} (${value.count})` }
                 }}
             />
             {githubActivity.map(value => (
                 <Tooltip id={`github-${value.date}`} />
             ))}
             <h3 className="w-full flex flex-row justify-start items-center gap-1 mt-10">
-                <FiGithub className="text-primary size-6" />&nbsp;
+                <TbBrandLeetcode className="text-primary size-6" />&nbsp;
                 <span className="text-white">Leetcode Submissions</span>
             </h3>
             <CalendarHeatmap 
                 startDate={startDate}
                 endDate={currentDate}
-                values={githubActivity}
+                values={leetcodeActivity}
                 classForValue={(value) => {
                     if (!value) return "heatmap-0";
                     const count = value.count;
-                    if (count <= 10) return `heatmap-${count}`;
-                    return 'heatmap-10';
+                    if (count <= 5) return `heatmap-${count}`;
+                    return 'heatmap-5';
                 }}
                 showMonthLabels={false}
                 tooltipDataAttrs={value => {
-                    if (!value) return {}
-                    return { 'data-tooltip-id': `github-${value.date}`, 'data-tooltip-content': `${value.date} (${value.count})` }
+                    if (!value || !value.date) return {}
+                    const dateTimeString = value.date.toDateString();
+                    return { 'data-tooltip-id': `leetcode-${value.date}`, 'data-tooltip-content': `${dateTimeString} (${value.count})` }
                 }}
             />
             {githubActivity.map(value => (
                 <Tooltip id={`github-${value.date}`} />
+            ))}
+            {leetcodeActivity.map(value => (
+                <Tooltip id={`leetcode-${value.date}`} />
             ))}
         </div>
     );
