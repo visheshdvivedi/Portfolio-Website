@@ -5,6 +5,7 @@ import AboutSection from "./parts/AboutSection";
 import SkillsAndTools from "./parts/Skills";
 import FeaturedProjects from "./parts/Projects";
 import Activity from "./parts/Activity";
+import Experience from "./parts/Experience";
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                 <SkillsAndTools />
                 <FeaturedProjects />
                 <Activity />
+                <Experience />
             </div>
         </TileBackground>
     )

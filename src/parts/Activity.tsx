@@ -24,10 +24,6 @@ const Activity = () => {
             "icon": <FaFireAlt className="size-8" />
         },
         {
-            "content": "Total Commits",
-            "icon": <FiGithub className="size-8" />
-        },
-        {
             "content": "Problems Solved",
             "icon": <FaCode className="size-8" />
         },
@@ -75,7 +71,7 @@ const Activity = () => {
             }
             const data = response.data;
             setStats(stat => {
-                return { ...stat, totalCommits: getTotalCommits(data['contributions']) }
+                return { ...stat, totalCommits: getTotalCount(data['contributions']) }
             })
             setGithubActivity(data['contributions']);
         } catch (error) {
@@ -93,7 +89,7 @@ const Activity = () => {
             const data = response.data;
             const formattedData = formatLeetcodeCalendarData(data);
             setStats(stat => {
-                return { ...stat, leetcodeStreak: data.streak }
+                return { ...stat, problemSolved: getTotalCount(formattedData) }
             })
             setLeetcodeActivity(activity => [...activity, ...formattedData])
         } catch (error) {
@@ -101,42 +97,42 @@ const Activity = () => {
         }
     }
 
-    const retrieveLeetcodeProfile = async () => {
-        try {
-            const response = await axios.get(`https://alfa-leetcode-api.onrender.com/${LEETCODE_USERNAME}/profile`);
-            if (response.status != 200) {
-                console.error(`Failed to retrieve leetcode profile ${response.data}`);
-                return;
-            }
-            const data = response.data;
-            console.log(data);
-            setStats(stat => {
-                return  { ...stat, leetcodeRank: data['ranking'], problemSolved: data['totalSolved'] }
-            })
-        } catch (error) {
-            console.error(`Failed to retrieve leetcode profile ${error}`);
-        }
-    }
+    // const retrieveLeetcodeProfile = async () => {
+    //     try {
+    //         const response = await axios.get(`https://alfa-leetcode-api.onrender.com/${LEETCODE_USERNAME}/profile`);
+    //         if (response.status != 200) {
+    //             console.error(`Failed to retrieve leetcode profile ${response.data}`);
+    //             return;
+    //         }
+    //         const data = response.data;
+    //         console.log(data);
+    //         setStats(stat => {
+    //             return  { ...stat, leetcodeRank: data['ranking'], problemSolved: data['totalSolved'] }
+    //         })
+    //     } catch (error) {
+    //         console.error(`Failed to retrieve leetcode profile ${error}`);
+    //     }
+    // }
 
-    const getTotalCommits = (data: any) => {
-        if (data.length < 5) return 0;
+    const getTotalCount = (data: any) => {
+        if (!data || data.length < 5) return 0;
         let count = 0;
+        console.log(data);
         for (let activity of data) {
             count += activity.count;
         }
         return count;
     }
 
-    const getRetrievedStatByContent = (content: string) => {
-        if (content === "Leetcode Day Streak") return stats.leetcodeStreak;
-        else if (content === "Total Commits") return stats.totalCommits;
-        else if (content === "Problems Solved") return stats.problemSolved;
-        else if (content === "Leetcode Rank") return stats.leetcodeRank;
-    }
+    // const getRetrievedStatByContent = (content: string) => {
+    //     if (content === "Leetcode Day Streak") return stats.leetcodeStreak;
+    //     else if (content === "Total Commits") return stats.totalCommits;
+    //     else if (content === "Problems Solved") return stats.problemSolved;
+    //     else if (content === "Leetcode Rank") return stats.leetcodeRank;
+    // }
 
     React.useEffect(() => {
         retrieveGithubActivity();
-        retrieveLeetcodeProfile();
         const currentYear = new Date().getFullYear();
         retrieveLeetcodeSubmissions(currentYear);
         retrieveLeetcodeSubmissions(currentYear - 1);
@@ -152,7 +148,7 @@ const Activity = () => {
             <p className="text-muted-foreground text-center">
                 Tracking my coding journey through commits and problem solving
             </p>
-            <div className="flex flex-row justify-between items-end gap-36 mt-5">
+            {/* <div className="flex flex-row justify-between items-end gap-36 mt-5">
                 {statCards.map(stat => (
                     <div key={stat.content} className="flex flex-col justify-center items-center gap-3">
                         <span className="text-primary">
@@ -162,52 +158,61 @@ const Activity = () => {
                         <span className="text-muted-foreground">{stat.content}</span>
                     </div>
                 ))}
+            </div> */}
+            <div className="w-full flex flex-row gap-5">
+                <div className="flex-1 flex flex-col gap-3">
+                    <div className="flex flex-row justify-between items-end">
+                        <h3 className="w-full flex flex-row justify-start items-center gap-1 mt-10">
+                            <FiGithub className="text-primary size-6" />&nbsp;
+                            <span className="text-white">Github Contributions</span>
+                        </h3>
+                        <span className="text-primary font-bold text-xl">{stats.totalCommits}</span>
+                    </div>
+                    <CalendarHeatmap 
+                        startDate={startDate}
+                        endDate={currentDate}
+                        values={githubActivity}
+                        classForValue={(value) => {
+                            if (!value) return "heatmap-0";
+                            const count = value.count;
+                            if (count <= 5) return `heatmap-${count}`;
+                            return 'heatmap-5';
+                        }}
+                        showMonthLabels={false}
+                        tooltipDataAttrs={value => {
+                            if (!value || !value.date) return {}
+                            const dateString = new Date(value.date).toDateString();
+                            return { 'data-tooltip-id': `github-${value.date}`, 'data-tooltip-content': `${dateString} (${value.count})` }
+                        }}
+                    />
+                </div>
+                <div className="flex-1 flex flex-col gap-3">
+                    <div className="flex flex-row justify-between items-end">
+                        <h3 className="w-full flex flex-row justify-start items-center gap-1 mt-10">
+                            <FiGithub className="text-primary size-6" />&nbsp;
+                            <span className="text-white">Leetcode Submissions</span>
+                        </h3>
+                        <span className="text-primary font-bold text-xl">{stats.problemSolved}</span>
+                    </div>
+                    <CalendarHeatmap 
+                        startDate={startDate}
+                        endDate={currentDate}
+                        values={leetcodeActivity}
+                        classForValue={(value) => {
+                            if (!value) return "heatmap-0";
+                            const count = value.count;
+                            if (count <= 5) return `heatmap-${count}`;
+                            return 'heatmap-5';
+                        }}
+                        showMonthLabels={false}
+                        tooltipDataAttrs={value => {
+                            if (!value || !value.date) return {}
+                            const dateTimeString = value.date.toDateString();
+                            return { 'data-tooltip-id': `leetcode-${value.date}`, 'data-tooltip-content': `${dateTimeString} (${value.count})` }
+                        }}
+                    />
+                </div>
             </div>
-            <h3 className="w-full flex flex-row justify-start items-center gap-1 mt-10">
-                <FiGithub className="text-primary size-6" />&nbsp;
-                <span className="text-white">Github Contributions</span>
-            </h3>
-            <CalendarHeatmap 
-                startDate={startDate}
-                endDate={currentDate}
-                values={githubActivity}
-                classForValue={(value) => {
-                    if (!value) return "heatmap-0";
-                    const count = value.count;
-                    if (count <= 5) return `heatmap-${count}`;
-                    return 'heatmap-5';
-                }}
-                showMonthLabels={false}
-                tooltipDataAttrs={value => {
-                    if (!value || !value.date) return {}
-                    const dateString = new Date(value.date).toDateString();
-                    return { 'data-tooltip-id': `github-${value.date}`, 'data-tooltip-content': `${dateString} (${value.count})` }
-                }}
-            />
-            {githubActivity.map(value => (
-                <Tooltip id={`github-${value.date}`} />
-            ))}
-            <h3 className="w-full flex flex-row justify-start items-center gap-1 mt-10">
-                <TbBrandLeetcode className="text-primary size-6" />&nbsp;
-                <span className="text-white">Leetcode Submissions</span>
-            </h3>
-            <CalendarHeatmap 
-                startDate={startDate}
-                endDate={currentDate}
-                values={leetcodeActivity}
-                classForValue={(value) => {
-                    if (!value) return "heatmap-0";
-                    const count = value.count;
-                    if (count <= 5) return `heatmap-${count}`;
-                    return 'heatmap-5';
-                }}
-                showMonthLabels={false}
-                tooltipDataAttrs={value => {
-                    if (!value || !value.date) return {}
-                    const dateTimeString = value.date.toDateString();
-                    return { 'data-tooltip-id': `leetcode-${value.date}`, 'data-tooltip-content': `${dateTimeString} (${value.count})` }
-                }}
-            />
             {githubActivity.map(value => (
                 <Tooltip id={`github-${value.date}`} />
             ))}
