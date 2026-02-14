@@ -25,17 +25,6 @@ const projects: Project[] = [
         ],
         websiteLink: "https://leetclone.dvivedi.in/",
         githubLink: "https://github.com/visheshdvivedi/LeetClone"
-    },
-    {
-        name: "LeetClone",
-        image: LeetcloneImage,
-        shortDescription: "A LeetCode-inspired platform for practicing DSA",
-        longDescription: "A LeetCode-inspired coding platform that allows users to practice data structures and algorithms by solving problems with real-time code execution, structured problem statements, and a clean, distraction-free interface.",
-        tags: [
-            "Python", "JavaScript", "React", "Django", "PostgreSQL"
-        ],
-        websiteLink: "https://leetclone.dvivedi.in/",
-        githubLink: "https://github.com/visheshdvivedi/LeetClone"
     }
 ]
 
@@ -87,7 +76,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
 const FeaturedProjects = () => {
 
     return (
-        <div className="flex flex-col justify-center items-center w-[80%] h-[80%] font-mono gap-5 mt-10">
+        <div id="projects" className="flex flex-col justify-center items-center w-[80%] h-[80%] font-mono gap-5 mt-10">
             <span className="text-primary text-sm">// Portfolio</span>
             <h2 className="text-3xl font-semibold text-white text-center">
                 Featured{" "}

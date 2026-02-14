@@ -46,7 +46,7 @@ const SkillsAndTools = () => {
     ]
 
     return (
-        <div className="flex flex-col justify-center items-center w-[80%] h-[80%] font-mono gap-5 mt-10">
+        <div id="skills" className="flex flex-col justify-center items-center w-[80%] h-[80%] font-mono gap-5 mt-10">
             <span className="text-primary text-sm">// Skills & Tools</span>
             <h2 className="text-3xl font-semibold text-white text-center">
                 Technologies{" "}

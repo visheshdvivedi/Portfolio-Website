@@ -46,7 +46,7 @@ const AboutSection = () => {
     ]
 
     return (
-        <div className="flex flex-col justify-center items-center w-[80%] h-[80%] font-mono gap-5 mt-10">
+        <div id="about" className="flex flex-col justify-center items-center w-[80%] h-[80%] font-mono gap-5 mt-10">
             <span className="text-primary text-sm">// About Me</span>
             <h2 className="text-3xl font-semibold text-white text-center">
                 Passionate Developer with a{" "}

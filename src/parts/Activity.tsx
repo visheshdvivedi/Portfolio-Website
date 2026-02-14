@@ -139,7 +139,7 @@ const Activity = () => {
     }, []);
 
     return (
-        <div className="flex flex-col justify-center items-center w-[80%] h-[80%] font-mono gap-8 my-10">
+        <div id="activity" className="flex flex-col justify-center items-center w-[80%] h-[80%] font-mono gap-8 my-10">
             <span className="text-primary text-sm">// Programming Activity</span>
             <h2 className="text-3xl font-semibold text-white text-center">
                 Consistent&nbsp;
